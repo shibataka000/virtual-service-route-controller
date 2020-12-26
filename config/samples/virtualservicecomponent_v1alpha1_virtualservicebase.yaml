@@ -1,0 +1,7 @@
+apiVersion: virtualservicecomponent.shibataka000.com/v1alpha1
+kind: VirtualServiceBase
+metadata:
+  name: virtualservicebase-sample
+spec:
+  # Add fields here
+  foo: bar
