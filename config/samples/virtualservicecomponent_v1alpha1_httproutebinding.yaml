@@ -1,4 +1,4 @@
-apiVersion: virtualserviceroute.shibataka000.com/v1alpha1
+apiVersion: virtualservicecomponent.shibataka000.com/v1alpha1
 kind: HTTPRouteBinding
 metadata:
   name: httproutebinding-sample

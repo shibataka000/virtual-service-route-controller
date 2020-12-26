@@ -1,7 +1,7 @@
 domain: shibataka000.com
 repo: github.com/shibataka000/virtual-service-route-controller
 resources:
-- group: virtualserviceroute
+- group: virtualservicecomponent
   kind: HTTPRouteBinding
   version: v1alpha1
 version: "2"

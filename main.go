@@ -26,7 +26,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	virtualserviceroutev1alpha1 "github.com/shibataka000/virtual-service-route-controller/api/v1alpha1"
+	virtualservicecomponentv1alpha1 "github.com/shibataka000/virtual-service-route-controller/api/v1alpha1"
 	"github.com/shibataka000/virtual-service-route-controller/controllers"
 	// +kubebuilder:scaffold:imports
 )
@@ -39,7 +39,7 @@ var (
 func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
-	_ = virtualserviceroutev1alpha1.AddToScheme(scheme)
+	_ = virtualservicecomponentv1alpha1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
