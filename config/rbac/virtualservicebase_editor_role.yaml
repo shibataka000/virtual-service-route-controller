@@ -1,0 +1,24 @@
+# permissions for end users to edit virtualservicebases.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualservicebase-editor-role
+rules:
+- apiGroups:
+  - virtualservicecomponent.shibataka000.com
+  resources:
+  - virtualservicebases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - virtualservicecomponent.shibataka000.com
+  resources:
+  - virtualservicebases/status
+  verbs:
+  - get
