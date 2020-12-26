@@ -48,6 +48,7 @@ func (r *VirtualServiceComponentReconciler) Reconcile(req ctrl.Request) (ctrl.Re
 
 func (r *VirtualServiceComponentReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&virtualservicecomponentv1alpha1.VirtualServiceComponent{}).
+		For(&virtualservicecomponentv1alpha1.VirtualServiceBase{}).
+		For(&virtualservicecomponentv1alpha1.HTTPRouteBinding{}).
 		Complete(r)
 }

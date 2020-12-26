@@ -66,14 +66,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.HTTPRouteBindingReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("HTTPRouteBinding"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "HTTPRouteBinding")
-		os.Exit(1)
-	}
 	if err = (&controllers.VirtualServiceComponentReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("VirtualServiceComponent"),
