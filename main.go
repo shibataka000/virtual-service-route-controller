@@ -27,6 +27,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	virtualservicecomponentv1alpha1 "github.com/shibataka000/virtual-service-route-controller/api/v1alpha1"
+	"github.com/shibataka000/virtual-service-route-controller/controllers"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -65,6 +66,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	if err = (&controllers.VirtualServiceConstructorReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("VirtualServiceConstructor"),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "VirtualServiceConstructor")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")
