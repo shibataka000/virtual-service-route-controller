@@ -28,8 +28,15 @@ type HTTPRouteBindingSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of HTTPRouteBinding. Edit HTTPRouteBinding_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	VirtualServiceBaseRef `json:"virtualServiceBaseRef,omitempty"`
+	HTTPRoute             `json:"httpRoute,omitempty"`
+}
+
+// VirtualServiceBaseRef is reference to VirtualServiceBase resource
+type VirtualServiceBaseRef struct {
+	metav1.TypeMeta `json:",inline"`
+	Name            string `json:"name,omitempty"`
+	Namespace       string `json:"namespace,omitempty"`
 }
 
 // HTTPRouteBindingStatus defines the observed state of HTTPRouteBinding
