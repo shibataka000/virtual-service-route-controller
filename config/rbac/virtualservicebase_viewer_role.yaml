@@ -1,0 +1,20 @@
+# permissions for end users to view virtualservicebases.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: virtualservicebase-viewer-role
+rules:
+- apiGroups:
+  - virtualservicecomponent.shibataka000.com
+  resources:
+  - virtualservicebases
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - virtualservicecomponent.shibataka000.com
+  resources:
+  - virtualservicebases/status
+  verbs:
+  - get
