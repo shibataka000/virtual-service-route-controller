@@ -3,5 +3,7 @@ kind: VirtualServiceBase
 metadata:
   name: virtualservicebase-sample
 spec:
-  # Add fields here
-  foo: bar
+  gateways:
+  - gateway
+  hosts:
+  - '*'

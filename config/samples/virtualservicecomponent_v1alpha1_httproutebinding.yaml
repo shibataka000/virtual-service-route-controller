@@ -3,5 +3,17 @@ kind: HTTPRouteBinding
 metadata:
   name: httproutebinding-sample
 spec:
-  # Add fields here
-  foo: bar
+  virtualServiceBaseRef:
+    apiVersion: virtualservicecomponent.shibataka000.com/v1alpha1
+    kind: VirtualServiceBase
+    name: virtualservicebase-sample
+    namespace: default
+  httpRoute:
+    match:
+    - headers:
+        key:
+          exact: mysubset
+    route:
+    - destination:
+        host: myhost
+        subset: mysubset
