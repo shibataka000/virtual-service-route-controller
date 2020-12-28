@@ -19,7 +19,9 @@ package main
 import (
 	"flag"
 	"os"
+	"time"
 
+	networkingv1beta1client "istio.io/client-go/pkg/apis/networking/v1beta1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -32,14 +34,16 @@ import (
 )
 
 var (
-	scheme   = runtime.NewScheme()
-	setupLog = ctrl.Log.WithName("setup")
+	scheme       = runtime.NewScheme()
+	setupLog     = ctrl.Log.WithName("setup")
+	resyncPeriod = time.Second * 30
 )
 
 func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
 	_ = virtualservicecomponentv1alpha1.AddToScheme(scheme)
+	_ = networkingv1beta1client.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -55,6 +59,7 @@ func main() {
 	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
+		SyncPeriod:         &resyncPeriod,
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
 		Port:               9443,
@@ -66,18 +71,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.HTTPRouteBindingReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("HTTPRouteBinding"),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "HTTPRouteBinding")
-		os.Exit(1)
-	}
 	if err = (&controllers.VirtualServiceBaseReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("VirtualServiceBase"),
-		Scheme: mgr.GetScheme(),
+		Client:   mgr.GetClient(),
+		Log:      ctrl.Log.WithName("controllers").WithName("VirtualServiceBase"),
+		Scheme:   mgr.GetScheme(),
+		Recorder: mgr.GetEventRecorderFor("VirtualServiceBaseController"),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VirtualServiceBase")
 		os.Exit(1)
