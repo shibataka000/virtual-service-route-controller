@@ -28,8 +28,16 @@ type HTTPRouteBindingSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of HTTPRouteBinding. Edit HTTPRouteBinding_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	VirtualServiceBaseRef VirtualServiceBaseRef `json:"virtualServiceBaseRef,omitempty"`
+	HTTPRoute             HTTPRoute             `json:"httpRoute,omitempty"`
+}
+
+// VirtualServiceBaseRef is reference to VirtualServiceBase resource
+type VirtualServiceBaseRef struct {
+	metav1.TypeMeta `json:",inline"`
+
+	Name      string `json:"name,omitempty"`
+	Namespace string `json:"namespace,omitempty"`
 }
 
 // HTTPRouteBindingStatus defines the observed state of HTTPRouteBinding
@@ -56,6 +64,10 @@ type HTTPRouteBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []HTTPRouteBinding `json:"items"`
+}
+
+func (ref VirtualServiceBaseRef) IsReference(base *VirtualServiceBase) bool {
+	return ref.APIVersion == base.APIVersion && ref.Kind == base.Kind && ref.Name == base.Name && ref.Namespace == base.Namespace
 }
 
 func init() {
